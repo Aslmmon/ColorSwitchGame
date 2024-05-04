@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:colorswitch/ground/Ground.dart';
 import 'package:colorswitch/player/PlayerBall.dart';
 import 'package:flame/camera.dart';
 import 'package:flame/components.dart';
@@ -23,7 +24,8 @@ class ColorSwitchGame extends FlameGame with TapCallbacks {
   @override
   void onMount() {
     playerBall = PlayerBall(15);
-    world.add(playerBall);
+
+    world.addAll([Ground(position: Vector2(0, 500)), playerBall]);
     debugMode = true;
     super.onMount();
   }

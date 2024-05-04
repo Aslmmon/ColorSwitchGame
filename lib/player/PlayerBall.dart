@@ -1,5 +1,7 @@
 import 'dart:ui';
 
+import 'package:colorswitch/game/ColorSwitchGame.dart';
+import 'package:colorswitch/ground/Ground.dart';
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 
@@ -9,7 +11,7 @@ const jumpSpeed = 350.0;
 
 Vector2 startPlayerPosition = Vector2.zero();
 
-class PlayerBall extends PositionComponent {
+class PlayerBall extends PositionComponent with HasGameRef<ColorSwitchGame> {
   final double radius;
 
   PlayerBall(this.radius);
@@ -17,7 +19,7 @@ class PlayerBall extends PositionComponent {
   @override
   void onMount() {
     position = startPlayerPosition;
-    size = Vector2.all(radius * 2 );
+    size = Vector2.all(radius * 2);
     anchor = Anchor.center;
     super.onMount();
   }
@@ -26,6 +28,14 @@ class PlayerBall extends PositionComponent {
   void update(double dt) {
     position += speed * dt;
     speed.y += gravity * dt;
+
+    Ground? ground = gameRef.findByKeyName(Ground.keyName);
+    if (ground != null) {
+      if (positionOfAnchor(Anchor.bottomCenter).y > ground.y) {
+        position =Vector2(0, ground.position.y - (height/2)) ;
+      }
+    }
+
     super.update(dt);
   }
 
