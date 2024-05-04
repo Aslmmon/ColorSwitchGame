@@ -1,9 +1,10 @@
 import 'dart:ui';
 
 import 'package:colorswitch/game/ColorSwitchGame.dart';
-import 'package:colorswitch/ground/Ground.dart';
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
+
+import '../ground/Ground.dart';
 
 Vector2 speed = Vector2(0, 30.0);
 const gravity = 500.0;

@@ -1,12 +1,14 @@
 import 'dart:ui';
-
-import 'package:colorswitch/ground/Ground.dart';
-import 'package:colorswitch/player/PlayerBall.dart';
+import 'package:colorswitch/components/circleRotator/CircleRotator.dart';
 import 'package:flame/camera.dart';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
+
+import '../components/ground/Ground.dart';
+import '../components/player/PlayerBall.dart';
+
 
 class ColorSwitchGame extends FlameGame with TapCallbacks {
   late PlayerBall playerBall;
@@ -18,14 +20,18 @@ class ColorSwitchGame extends FlameGame with TapCallbacks {
 
   @override
   Color backgroundColor() {
-    return Colors.black12;
+    return Colors.black;
   }
 
   @override
   void onMount() {
     playerBall = PlayerBall(15);
 
-    world.addAll([Ground(position: Vector2(0, 500)), playerBall]);
+    world.addAll([
+      Ground(position: Vector2(0, 400)),
+      playerBall,
+      generateCircleRotator()
+    ]);
     debugMode = true;
     super.onMount();
   }
@@ -42,6 +48,10 @@ class ColorSwitchGame extends FlameGame with TapCallbacks {
     if (playerY < cameraY) {
       camera.viewfinder.position = Vector2(0, playerBall.position.y);
     }
+  }
+
+  CircleRotator generateCircleRotator() {
+    return CircleRotator(position: Vector2(0, 0), size: Vector2.all(200));
   }
 
   @override
