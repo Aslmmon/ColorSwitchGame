@@ -19,7 +19,6 @@ class Ground extends PositionComponent {
   Future<void> onLoad() async {
     await super.onLoad();
     fingerSprite = await Sprite.load("finger.png");
-    // add(SpriteComponent(size: Vector2(0, -200), sprite: fingerSprite));
   }
 
   @override
