@@ -29,8 +29,7 @@ class ColorSwitchGame extends FlameGame
     super.onMount();
   }
 
-
-  void _initializeGame(){
+  void _initializeGame() {
     playerBall = PlayerBall(15, gameColors.first);
     world.addAll([
       Ground(position: Vector2(0, 400)),
@@ -42,6 +41,7 @@ class ColorSwitchGame extends FlameGame
     ]);
     camera.moveTo(Vector2.zero());
   }
+
   @override
   void update(double dt) {
     makeCameraFollowPlayerUpward();
@@ -66,10 +66,20 @@ class ColorSwitchGame extends FlameGame
     super.onTapDown(event);
   }
 
-  void gameOver(){
-   world.children.forEach((element) {
-     element.removeFromParent();
-   });
-   _initializeGame();
+  void gameOver() {
+    world.children.forEach((element) {
+      element.removeFromParent();
+    });
+    _initializeGame();
+  }
+
+  bool get isGamePaused => paused;
+
+  void pauseGame() {
+    pauseEngine();
+  }
+
+  void resumeGame() {
+    resumeEngine();
   }
 }
