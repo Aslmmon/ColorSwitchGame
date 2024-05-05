@@ -30,22 +30,39 @@ class _HomePageState extends State<HomePage> {
       body: Stack(
         children: [
           GameWidget(game: _game),
-          Align(
-            alignment: Alignment.topLeft,
-            child: IconButton(
-              onPressed: () {
-                setState(() {
-                  if (_game.isGamePaused) {
-                    _game.resumeGame();
-                  } else {
-                    _game.pauseGame();
-                  }
-                });
-              },
-              icon: Icon(
-                  _game.isGamePaused ? Icons.pause_circle : Icons.play_circle),
-            ),
-          ),
+
+              Align(
+                alignment: Alignment.topLeft,
+                child:
+                    Row(
+                      children: [
+                        IconButton(
+                          onPressed: () {
+                            setState(() {
+                              if (_game.isGamePaused) {
+                                _game.resumeGame();
+                              } else {
+                                _game.pauseGame();
+                              }
+                            });
+                          },
+                          icon: Icon(
+                              _game.isGamePaused ? Icons.pause_circle : Icons.play_circle),
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            _game.refreshGame();
+                          },
+                          icon: Icon(Icons.refresh_rounded),
+                        ),
+
+                      ],
+                    )
+
+
+              ),
+
+
           if (_game.isGamePaused)
             Center(
               child: Column(

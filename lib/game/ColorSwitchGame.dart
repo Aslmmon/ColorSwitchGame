@@ -7,9 +7,10 @@ import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import '../components/ground/Ground.dart';
 import '../components/player/PlayerBall.dart';
+import 'package:flame/src/rendering/paint_decorator.dart';
 
 class ColorSwitchGame extends FlameGame
-    with TapCallbacks, HasCollisionDetection {
+    with TapCallbacks, HasCollisionDetection, HasDecorator, HasTimeScale {
   late PlayerBall playerBall;
 
   ColorSwitchGame()
@@ -56,8 +57,14 @@ class ColorSwitchGame extends FlameGame
     }
   }
 
+  @override
+  void onLoad() {
+    // decorator = PaintDecorator.blur(10);
+    super.onLoad();
+  }
+
   CircleRotator generateCircleRotator() {
-    return CircleRotator(position: Vector2(0, 0), size: Vector2.all(200));
+    return CircleRotator(position: Vector2(0, -200), size: Vector2.all(200));
   }
 
   @override
@@ -67,6 +74,15 @@ class ColorSwitchGame extends FlameGame
   }
 
   void gameOver() {
+    // world.children.forEach((element) {
+    //   element.removeFromParent();
+    // });
+    pauseEngine();
+    //_initializeGame();
+  }
+
+  void refreshGame() {
+    resumeEngine();
     world.children.forEach((element) {
       element.removeFromParent();
     });
@@ -76,10 +92,16 @@ class ColorSwitchGame extends FlameGame
   bool get isGamePaused => paused;
 
   void pauseGame() {
+    // decorator = PaintDecorator.blur(10);
     pauseEngine();
+    // (this.decorator as PaintDecorator).addBlur(10);
+    timeScale = 0.0;
+    //   decorator = PaintDecorator.blur(10);
   }
 
   void resumeGame() {
     resumeEngine();
+    timeScale = 1.0;
+    //  decorator = PaintDecorator.blur(0);
   }
 }
