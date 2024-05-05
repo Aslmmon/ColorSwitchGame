@@ -5,12 +5,11 @@ import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
-
 import '../components/ground/Ground.dart';
 import '../components/player/PlayerBall.dart';
 
-
-class ColorSwitchGame extends FlameGame with TapCallbacks {
+class ColorSwitchGame extends FlameGame
+    with TapCallbacks, HasCollisionDetection {
   late PlayerBall playerBall;
 
   ColorSwitchGame()
@@ -25,17 +24,24 @@ class ColorSwitchGame extends FlameGame with TapCallbacks {
 
   @override
   void onMount() {
-    playerBall = PlayerBall(15);
-
-    world.addAll([
-      Ground(position: Vector2(0, 400)),
-      playerBall,
-      generateCircleRotator()
-    ]);
+    _initializeGame();
     debugMode = true;
     super.onMount();
   }
 
+
+  void _initializeGame(){
+    playerBall = PlayerBall(15, gameColors.first);
+    world.addAll([
+      Ground(position: Vector2(0, 400)),
+      playerBall,
+      generateCircleRotator(),
+      ColorSwitcher(
+          positionColorSwitcher: Vector2(0, -300),
+          sizeColorSwitcher: Vector2.all(20))
+    ]);
+    camera.moveTo(Vector2.zero());
+  }
   @override
   void update(double dt) {
     makeCameraFollowPlayerUpward();
@@ -58,5 +64,12 @@ class ColorSwitchGame extends FlameGame with TapCallbacks {
   void onTapDown(TapDownEvent event) {
     playerBall.jump();
     super.onTapDown(event);
+  }
+
+  void gameOver(){
+   world.children.forEach((element) {
+     element.removeFromParent();
+   });
+   _initializeGame();
   }
 }
