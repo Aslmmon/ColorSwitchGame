@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:colorswitch/components/circleRotator/CircleRotator.dart';
 
 import '../ground/Ground.dart';
+import '../star/StarComponent.dart';
 
 Vector2 speed = Vector2(0, 30.0);
 const gravity = 500.0;
@@ -74,6 +75,10 @@ class PlayerBall extends PositionComponent
       }
       // print( "passed by "+  (other as CircleArc).getColor().value.toString());
       // print( "player color  "+  colorPlayer.value.toString());
+    }
+    else if (other is StarComponent) {
+      other.showCollectEffect();
+      gameRef.increaseScore();
     }
   }
 

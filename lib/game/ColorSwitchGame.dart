@@ -7,6 +7,7 @@ import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import '../components/ground/Ground.dart';
 import '../components/player/PlayerBall.dart';
+import '../components/star/StarComponent.dart';
 import 'package:flame/src/rendering/paint_decorator.dart';
 
 class ColorSwitchGame extends FlameGame
@@ -20,8 +21,10 @@ class ColorSwitchGame extends FlameGame
 
   @override
   Color backgroundColor() {
-    return Colors.black;
+    return Colors.black12;
   }
+
+  final ValueNotifier<int> currentScore = ValueNotifier(0);
 
   @override
   void onMount() {
@@ -32,14 +35,19 @@ class ColorSwitchGame extends FlameGame
 
   void _initializeGame() {
     playerBall = PlayerBall(15, gameColors.first);
-    world.addAll([
-      Ground(position: Vector2(0, 400)),
-      playerBall,
-      generateCircleRotator(),
-      ColorSwitcher(
-          positionColorSwitcher: Vector2(0, -300),
-          sizeColorSwitcher: Vector2.all(20))
-    ]);
+    world.addAll(
+      [
+        Ground(position: Vector2(0, 400)),
+        playerBall,
+        generateCircleRotator(),
+        StarComponent(
+          position: Vector2(0, -400),
+        ),
+        ColorSwitcher(
+            positionColorSwitcher: Vector2(0, -300),
+            sizeColorSwitcher: Vector2.all(20))
+      ],
+    );
     camera.moveTo(Vector2.zero());
   }
 
@@ -103,5 +111,8 @@ class ColorSwitchGame extends FlameGame
     resumeEngine();
     timeScale = 1.0;
     //  decorator = PaintDecorator.blur(0);
+  }
+  void increaseScore() {
+    currentScore.value++;
   }
 }
